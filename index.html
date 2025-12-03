@@ -1,182 +1,829 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nautical Library - Jules RIVA</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wallet – Codex Documents</title>
 
-    <!-- Google Font (sobre et moderne) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-    <style>
-        :root {
-            --bg: #f7f8fa;
-            --card-bg: #ffffff;
-            --accent: #007AFF;
-            --text: #1c1c1e;
-            --subtext: #6e6e73;
-            --radius: 12px;
-            --shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-alt: #090e1e;
+      --card-bg: #0f172a;
+      --card-alt: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --accent-strong: #0ea5e9;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --danger: #f97373;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.85);
+      --border-subtle: 1px solid rgba(148, 163, 184, 0.25);
+    }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            -webkit-font-smoothing: antialiased;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        header {
-            padding: 32px 20px 20px;
-            text-align: center;
-        }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at top, #1f2937 0, #020617 40%, #020617 100%);
+      min-height: 100%;
+    }
 
-        header h1 {
-            margin: 0;
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+    }
 
-        header p {
-            margin-top: 8px;
-            font-size: 1rem;
-            color: var(--subtext);
-        }
+    .app-shell {
+      width: 100%;
+      max-width: 980px;
+      min-height: 100vh;
+      padding: 16px 12px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
-        main {
-            padding: 10px 16px 40px;
-            max-width: 700px;
-            margin: auto;
-        }
+    @media (min-width: 768px) {
+      .app-shell {
+        padding: 32px 24px 40px;
+      }
+    }
 
-        .section-card {
-            background: var(--card-bg);
-            padding: 18px 20px;
-            margin-bottom: 20px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-        }
+    .card {
+      background: radial-gradient(120% 220% at 0% 0%, rgba(56, 189, 248, 0.18), transparent),
+        radial-gradient(130% 260% at 100% 100%, rgba(59, 130, 246, 0.12), transparent),
+        var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 16px;
+      backdrop-filter: blur(18px);
+    }
 
-        .section-title {
-            font-size: 1.3rem;
-            margin-bottom: 14px;
-            font-weight: 600;
-            color: var(--accent);
-        }
+    @media (min-width: 768px) {
+      .card {
+        padding: 22px 22px;
+      }
+    }
 
-        .doc-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
 
-        .doc-item a {
-            display: block;
-            background: #eef2f7;
-            padding: 14px 16px;
-            border-radius: var(--radius);
-            font-size: 1rem;
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 500;
-            border: 1px solid rgba(0,0,0,0.05);
-            transition: all 0.15s ease;
-        }
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
 
-        .doc-item a:hover {
-            background: #e2e8f0;
-        }
+    .brand-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        .error {
-            padding: 20px;
-            text-align: center;
-            color: #b00020;
-            font-weight: 600;
-        }
-    </style>
+    .logo-pill {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: conic-gradient(from 220deg, #0ea5e9, #22c55e, #a855f7, #0ea5e9);
+      padding: 2px;
+    }
+
+    .logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #e0f2fe 0, #0f172a 55%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #020617;
+    }
+
+    .title-block h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .title-block p {
+      margin: 3px 0 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .badge-env {
+      font-size: 0.75rem;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.35);
+    }
+
+    /* Layout principal */
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .screen {
+      display: none;
+    }
+    .screen.active {
+      display: block;
+    }
+
+    /* Liste sections / docs */
+
+    .section-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .section-card {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.9));
+      border-radius: var(--radius-md);
+      padding: 14px 14px 12px;
+      border: var(--border-subtle);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), transparent 55%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .section-header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      z-index: 1;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .section-count {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .doc-list {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .doc-item button {
+      width: 100%;
+      text-align: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 11px 12px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #020617, #020617);
+      color: var(--text);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      transition: all 0.14s ease-out;
+    }
+
+    .doc-item button:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.35);
+      transform: translateY(-1px);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), #020617);
+    }
+
+    .doc-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .doc-label {
+      font-weight: 500;
+    }
+
+    .doc-meta-line {
+      font-size: 0.72rem;
+      color: var(--muted);
+      opacity: 0.9;
+    }
+
+    .doc-chevron {
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+
+    /* Screen détail document */
+
+    .doc-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease-out;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent-strong);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .doc-header-text h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .doc-header-text p {
+      margin: 3px 0 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .doc-meta-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 10px 0 12px;
+    }
+
+    .doc-meta-primary {
+      background: var(--accent-soft);
+      border: 1px solid rgba(56, 189, 248, 0.7);
+      color: #e0f2fe;
+    }
+
+    .doc-meta-secondary {
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .doc-meta-aux {
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 0.7rem;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      color: var(--muted);
+    }
+
+    .doc-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .btn-primary {
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      border: none;
+      background: linear-gradient(135deg, #0ea5e9, #22c55e);
+      color: #0b1120;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 30px rgba(34, 197, 94, 0.45);
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 32px rgba(34, 197, 94, 0.6);
+    }
+
+    .btn-outline {
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease-out;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent-strong);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .viewer-wrapper {
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), #020617);
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 260px;
+      max-height: calc(100vh - 260px);
+    }
+
+    .viewer-header {
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .viewer-dots {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .viewer-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+    }
+
+    .viewer-dot.red { background: #f97373; }
+    .viewer-dot.yellow { background: #facc15; }
+    .viewer-dot.green { background: #4ade80; }
+
+    .viewer-url {
+      max-width: 70%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .viewer-body {
+      flex: 1;
+      position: relative;
+      background: radial-gradient(circle at center, #020617, #020617);
+    }
+
+    .viewer-iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
+      background: #020617;
+    }
+
+    .viewer-fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .error-banner {
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(248, 113, 113, 0.45);
+      color: #fecaca;
+      font-size: 0.75rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
 </head>
-
 <body>
-    <header>
-        <h1>Nautical Library - Jules RIVA</h1>
-        <p>Accès rapide à mes documents en cas de contrôle</p>
-    </header>
+  <div class="app-shell">
+    <div class="card">
+      <header>
+        <div class="brand-row">
+          <div class="brand-main">
+            <div class="logo-pill">
+              <div class="logo-inner">W</div>
+            </div>
+            <div class="title-block">
+              <h1>Wallet – Codex Documents</h1>
+              <p>Accès rapide et structuré à tous tes justificatifs.</p>
+            </div>
+          </div>
+          <div class="badge-env">QR • Mobile first</div>
+        </div>
 
-    <main id="content">
-        <!-- Contenu généré dynamiquement -->
-    </main>
+        <div class="meta-row">
+          <span class="chip">
+            <span class="chip-dot"></span> Contrôles & plaisance
+          </span>
+          <span class="chip">
+            <span class="chip-dot"></span> Moniteur & pro encadrement
+          </span>
+          <span class="chip">
+            <span class="chip-dot"></span> Diplômes & sécurité
+          </span>
+        </div>
+      </header>
 
-    <script>
-        async function loadDocuments() {
-            const container = document.getElementById("content");
+      <main>
+        <!-- Écran 1 : liste des documents -->
+        <section id="screen-home" class="screen active">
+          <div id="sections" class="section-list"></div>
+          <div id="home-error" class="error-banner hidden">
+            Impossible de charger <code>documents.txt</code>. Vérifie son emplacement
+            (même dossier que <code>index.html</code>) et la casse du nom.
+          </div>
+        </section>
 
-            try {
-                const response = await fetch("documents.txt");
-                if (!response.ok) throw new Error("Impossible de charger documents.txt");
+        <!-- Écran 2 : détail d'un document -->
+        <section id="screen-doc" class="screen">
+          <div class="doc-header-bar">
+            <button id="back-btn" class="btn-ghost" type="button">
+              ← Retour au codex
+            </button>
+            <div class="doc-header-text">
+              <h2 id="doc-label"></h2>
+              <p id="doc-section"></p>
+            </div>
+          </div>
 
-                const text = await response.text();
-                const lines = text.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+          <div id="doc-meta" class="doc-meta-chips"></div>
 
-                let currentSection = null;
-                let sections = {};
+          <div class="doc-actions">
+            <button id="open-new-tab" class="btn-primary" type="button">
+              Ouvrir le document
+              <span>↗</span>
+            </button>
+            <button id="copy-link" class="btn-outline" type="button">
+              Copier le lien
+            </button>
+          </div>
 
-                for (let line of lines) {
-                    // Nouvelle section
-                    if (line.startsWith("[") && line.endsWith("]")) {
-                        currentSection = line.slice(1, -1);
-                        sections[currentSection] = [];
-                    }
-                    // Document
-                    else if (currentSection) {
-                        const parts = line.split("|");
-                        if (parts.length === 2) {
-                            const label = parts[0].trim();
-                            const url = parts[1].trim();
-                            sections[currentSection].push({ label, url });
-                        }
-                    }
-                }
+          <div id="viewer" class="viewer-wrapper">
+            <div class="viewer-header">
+              <div class="viewer-dots">
+                <span class="viewer-dot red"></span>
+                <span class="viewer-dot yellow"></span>
+                <span class="viewer-dot green"></span>
+              </div>
+              <div id="viewer-url" class="viewer-url"></div>
+            </div>
+            <div class="viewer-body">
+              <iframe
+                id="viewer-iframe"
+                class="viewer-iframe"
+                loading="lazy"
+                referrerpolicy="no-referrer"
+              ></iframe>
+              <div id="viewer-fallback" class="viewer-fallback hidden">
+                Le document ne peut pas être intégré dans la page (restriction
+                d'hébergement). Utilise le bouton “Ouvrir le document” pour y accéder.
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
 
-                // Générer le HTML
-                for (let section in sections) {
-                    const card = document.createElement("section");
-                    card.className = "section-card";
+  <script>
+    const state = {
+      sections: [],
+      docsBySlug: new Map(),
+    };
 
-                    const title = document.createElement("h2");
-                    title.className = "section-title";
-                    title.textContent = section;
+    function parseDocuments(raw) {
+      const lines = raw
+        .split("\n")
+        .map((l) => l.trim())
+        .filter((l) => l.length > 0);
 
-                    const list = document.createElement("div");
-                    list.className = "doc-list";
+      let currentSection = null;
+      const sections = [];
+      const docsBySlug = new Map();
 
-                    sections[section].forEach(doc => {
-                        const item = document.createElement("div");
-                        item.className = "doc-item";
+      for (const line of lines) {
+        if (line.startsWith("[") && line.endsWith("]")) {
+          currentSection = line.slice(1, -1).trim();
+          if (!currentSection) continue;
+          sections.push({ name: currentSection, docs: [] });
+        } else if (currentSection) {
+          const parts = line.split("|").map((p) => p.trim());
+          if (parts.length < 3) continue;
 
-                        const link = document.createElement("a");
-                        link.href = doc.url;
-                        link.target = "_blank";
-                        link.rel = "noopener";
-                        link.textContent = doc.label;
+          const label = parts[0] || "Document";
+          const slug = parts[1] || label.toLowerCase().replace(/\s+/g, "-");
+          const url = parts[2];
+          const metaPrimary = parts[3] || "";
+          const metaSecondary = parts[4] || "";
+          const metaAuxRaw = parts[5] || "";
+          const metaAux = metaAuxRaw
+            .split(",")
+            .map((t) => t.trim())
+            .filter((t) => t.length > 0);
 
-                        item.appendChild(link);
-                        list.appendChild(item);
-                    });
+          const doc = {
+            label,
+            slug,
+            url,
+            metaPrimary,
+            metaSecondary,
+            metaAux,
+            section: currentSection,
+          };
 
-                    card.appendChild(title);
-                    card.appendChild(list);
-                    container.appendChild(card);
-                }
+          const sectionObj = sections[sections.length - 1];
+          sectionObj.docs.push(doc);
+          docsBySlug.set(slug, doc);
+        }
+      }
 
-            } catch (err) {
-                container.innerHTML = `<div class="error">⚠️ ${err.message}</div>`;
-            }
+      return { sections, docsBySlug };
+    }
+
+    function renderHome() {
+      document.getElementById("screen-home").classList.add("active");
+      document.getElementById("screen-doc").classList.remove("active");
+
+      const container = document.getElementById("sections");
+      container.innerHTML = "";
+
+      for (const section of state.sections) {
+        const card = document.createElement("div");
+        card.className = "section-card";
+
+        const header = document.createElement("div");
+        header.className = "section-header";
+
+        const title = document.createElement("div");
+        title.className = "section-title";
+        title.textContent = section.name;
+
+        const count = document.createElement("div");
+        count.className = "section-count";
+        count.textContent =
+          section.docs.length > 1
+            ? section.docs.length + " documents"
+            : section.docs.length + " document";
+
+        header.appendChild(title);
+        header.appendChild(count);
+
+        const list = document.createElement("div");
+        list.className = "doc-list";
+
+        for (const doc of section.docs) {
+          const item = document.createElement("div");
+          item.className = "doc-item";
+
+          const btn = document.createElement("button");
+          btn.type = "button";
+
+          const main = document.createElement("div");
+          main.className = "doc-main";
+
+          const label = document.createElement("div");
+          label.className = "doc-label";
+          label.textContent = doc.label;
+
+          const metaLine = document.createElement("div");
+          metaLine.className = "doc-meta-line";
+          const mp = doc.metaPrimary || "Document";
+          const ms = doc.metaSecondary || doc.section;
+          metaLine.textContent = mp + " • " + ms;
+
+          main.appendChild(label);
+          main.appendChild(metaLine);
+
+          const chevron = document.createElement("div");
+          chevron.className = "doc-chevron";
+          chevron.textContent = "›";
+
+          btn.appendChild(main);
+          btn.appendChild(chevron);
+
+          btn.addEventListener("click", () => {
+            window.location.hash = "#doc=" + encodeURIComponent(doc.slug);
+          });
+
+          item.appendChild(btn);
+          list.appendChild(item);
         }
 
-        loadDocuments();
-    </script>
+        card.appendChild(header);
+        card.appendChild(list);
+        container.appendChild(card);
+      }
+    }
 
+    function renderDocument(slug) {
+      const doc = state.docsBySlug.get(slug);
+      if (!doc) {
+        window.location.hash = "";
+        return;
+      }
+
+      document.getElementById("screen-home").classList.remove("active");
+      document.getElementById("screen-doc").classList.add("active");
+
+      const labelEl = document.getElementById("doc-label");
+      const sectionEl = document.getElementById("doc-section");
+      const metaContainer = document.getElementById("doc-meta");
+      const viewerUrl = document.getElementById("viewer-url");
+      const iframe = document.getElementById("viewer-iframe");
+      const fallback = document.getElementById("viewer-fallback");
+
+      labelEl.textContent = doc.label;
+      sectionEl.textContent = doc.section;
+
+      metaContainer.innerHTML = "";
+
+      if (doc.metaPrimary) {
+        const primaryChip = document.createElement("div");
+        primaryChip.className = "chip doc-meta-primary";
+        primaryChip.textContent = doc.metaPrimary;
+        metaContainer.appendChild(primaryChip);
+      }
+
+      if (doc.metaSecondary) {
+        const secondaryChip = document.createElement("div");
+        secondaryChip.className = "chip doc-meta-secondary";
+        secondaryChip.textContent = doc.metaSecondary;
+        metaContainer.appendChild(secondaryChip);
+      }
+
+      if (doc.metaAux && doc.metaAux.length) {
+        for (const tag of doc.metaAux) {
+          const auxChip = document.createElement("div");
+          auxChip.className = "doc-meta-aux";
+          auxChip.textContent = tag;
+          metaContainer.appendChild(auxChip);
+        }
+      }
+
+      viewerUrl.textContent = doc.url;
+      fallback.classList.add("hidden");
+
+      iframe.src = doc.url;
+      iframe.onload = () => {
+        fallback.classList.add("hidden");
+      };
+      iframe.onerror = () => {
+        fallback.classList.remove("hidden");
+      };
+
+      const openBtn = document.getElementById("open-new-tab");
+      openBtn.onclick = () => {
+        window.open(doc.url, "_blank", "noopener");
+      };
+
+      const copyBtn = document.getElementById("copy-link");
+      copyBtn.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(doc.url);
+          copyBtn.textContent = "Lien copié ✔";
+          setTimeout(() => {
+            copyBtn.textContent = "Copier le lien";
+          }, 1200);
+        } catch (e) {
+          copyBtn.textContent = "Impossible de copier";
+          setTimeout(() => {
+            copyBtn.textContent = "Copier le lien";
+          }, 1200);
+        }
+      };
+    }
+
+    function handleRouteChange() {
+      const hash = window.location.hash || "";
+      const match = hash.match(/^#doc=(.+)$/);
+      if (match) {
+        const slug = decodeURIComponent(match[1]);
+        renderDocument(slug);
+      } else {
+        renderHome();
+      }
+    }
+
+    async function bootstrap() {
+      const homeError = document.getElementById("home-error");
+      homeError.classList.add("hidden");
+
+      try {
+        const res = await fetch("documents.txt");
+        if (!res.ok) throw new Error();
+        const text = await res.text();
+        const { sections, docsBySlug } = parseDocuments(text);
+        state.sections = sections;
+        state.docsBySlug = docsBySlug;
+
+        handleRouteChange();
+      } catch (err) {
+        homeError.classList.remove("hidden");
+      }
+    }
+
+    document.getElementById("back-btn").addEventListener("click", () => {
+      window.location.hash = "";
+    });
+
+    window.addEventListener("hashchange", handleRouteChange);
+
+    bootstrap();
+  </script>
 </body>
 </html>

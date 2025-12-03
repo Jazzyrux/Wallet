@@ -1,11 +1,11 @@
 [Licences]
-Permis | https://exemple.com/permis.pdf
-Identité | https://exemple.com/identite.pdf
-CRR | https://exemple.com/crr.pdf
+Permis | permis | https://tonlien.com/permis.pdf | Permis plaisance | Document principal de navigation | nautisme, plaisance
+Identité | identite | https://tonlien.com/identite.pdf | Pièce d'identité | Document officiel | identité, contrôle
+CRR | crr | https://tonlien.com/crr.pdf | Certificat restreint radio | Navigation & radio | radio, obligatoire
 
 [Professional]
-Carte Pro | https://exemple.com/carte-pro.pdf
-BPJEPS | https://exemple.com/bpjeps.pdf
+Carte Pro | carte-pro | https://tonlien.com/cartepro.pdf | Moniteur | Carte professionnelle | encadrement, moniteur
+BPJEPS | bpjeps | https://tonlien.com/bpjeps.pdf | Diplôme BPJEPS | Encadrement sportif | diplôme, sport
 
 [Security]
-PSC1 | https://exemple.com/psc1.pdf
+PSC1 | psc1 | https://tonlien.com/psc1.pdf | Premiers secours | Formation PSC1 | sécurité, secours

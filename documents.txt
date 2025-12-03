@@ -1,7 +1,7 @@
 [Licences]
 Permis | permis | https://tonlien.com/permis.pdf | Permis plaisance | Document principal de navigation | nautisme, plaisance
 Identité | identite | https://tonlien.com/identite.pdf | Pièce d'identité | Document officiel | identité, contrôle
-CRR | crr | https://tonlien.com/crr.pdf | Certificat restreint radio | Navigation & radio | radio, obligatoire
+CRR | crr | https://cvws.icloud-content.com/B/AYwwMivc87_UErSdp9n2_JpBofnlAdE5fwOhY-cQa9zo4yVKihX61ONp/CRR+2024.pdf?o=Anlefj4FsDlNTlGpjqtrop3fWzaIHM7oSJBFMCpwLyAe&v=1&x=3&a=CAogvKai8egJFQqi6ylX-tbIKqm3WnuIEwwOzN5m6ix2UKgSaxDEiqivrjMYxOeDsa4zIgEAUgRBofnlWgT61ONpaiWbP3WXUaE39q5QyZCnC_L0aMIP6aL-sZAqS9RxxoU0uuEZI0utciXefNiry-NZqdtT51aN4ThT-L8kg6gQpZUFuwhLHEbwK6q-YWan&e=1764797510&fl=&r=48dbfc48-0bd5-4e26-98de-f308673494b6-1&k=xPsZdPThMQZrf7axyMcIaw&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=167&s=d5tk9ThvDWXvE2QKe5AUO39IS64&cd=i | Certificat restreint radio | Navigation & radio | radio, obligatoire
 
 [Professional]
 Carte Pro | carte-pro | https://tonlien.com/cartepro.pdf | Moniteur | Carte professionnelle | encadrement, moniteur

@@ -506,17 +506,7 @@
           <div class="badge-env">QR • Mobile first</div>
         </div>
 
-        <div class="meta-row">
-          <span class="chip">
-            <span class="chip-dot"></span> Contrôles & plaisance
-          </span>
-          <span class="chip">
-            <span class="chip-dot"></span> Moniteur & pro encadrement
-          </span>
-          <span class="chip">
-            <span class="chip-dot"></span> Diplômes & sécurité
-          </span>
-        </div>
+        <div class="meta-row" id="header-chips"></div>
       </header>
 
       <main>
@@ -797,6 +787,24 @@
       } else {
         renderHome();
       }
+    }
+
+    function renderHeaderChips() {
+      const container = document.getElementById("header-chips");
+      if (!container) return;
+      container.innerHTML = "";
+
+      state.sections.forEach((section) => {
+        const chip = document.createElement("span");
+        chip.className = "chip";
+
+        const dot = document.createElement("span");
+        dot.className = "chip-dot";
+
+        chip.appendChild(dot);
+        chip.appendChild(document.createTextNode(" " + section.name));
+        container.appendChild(chip);
+      });
     }
 
     async function bootstrap() {

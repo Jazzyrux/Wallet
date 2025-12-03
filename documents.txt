@@ -1,0 +1,11 @@
+[Licences]
+Permis | https://exemple.com/permis.pdf
+Identité | https://exemple.com/identite.pdf
+CRR | https://exemple.com/crr.pdf
+
+[Professional]
+Carte Pro | https://exemple.com/carte-pro.pdf
+BPJEPS | https://exemple.com/bpjeps.pdf
+
+[Security]
+PSC1 | https://exemple.com/psc1.pdf

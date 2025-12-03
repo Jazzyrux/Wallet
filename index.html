@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nautical Library - Jules RIVA</title>
+
+    <!-- Google Font (sobre et moderne) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #f7f8fa;
+            --card-bg: #ffffff;
+            --accent: #007AFF;
+            --text: #1c1c1e;
+            --subtext: #6e6e73;
+            --radius: 12px;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            padding: 32px 20px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        header p {
+            margin-top: 8px;
+            font-size: 1rem;
+            color: var(--subtext);
+        }
+
+        main {
+            padding: 10px 16px 40px;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            padding: 18px 20px;
+            margin-bottom: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 14px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .doc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .doc-item a {
+            display: block;
+            background: #eef2f7;
+            padding: 14px 16px;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.15s ease;
+        }
+
+        .doc-item a:hover {
+            background: #e2e8f0;
+        }
+
+        .error {
+            padding: 20px;
+            text-align: center;
+            color: #b00020;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Nautical Library - Jules RIVA</h1>
+        <p>Accès rapide à mes documents en cas de contrôle</p>
+    </header>
+
+    <main id="content">
+        <!-- Contenu généré dynamiquement -->
+    </main>
+
+    <script>
+        async function loadDocuments() {
+            const container = document.getElementById("content");
+
+            try {
+                const response = await fetch("documents.txt");
+                if (!response.ok) throw new Error("Impossible de charger documents.txt");
+
+                const text = await response.text();
+                const lines = text.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+
+                let currentSection = null;
+                let sections = {};
+
+                for (let line of lines) {
+                    // Nouvelle section
+                    if (line.startsWith("[") && line.endsWith("]")) {
+                        currentSection = line.slice(1, -1);
+                        sections[currentSection] = [];
+                    }
+                    // Document
+                    else if (currentSection) {
+                        const parts = line.split("|");
+                        if (parts.length === 2) {
+                            const label = parts[0].trim();
+                            const url = parts[1].trim();
+                            sections[currentSection].push({ label, url });
+                        }
+                    }
+                }
+
+                // Générer le HTML
+                for (let section in sections) {
+                    const card = document.createElement("section");
+                    card.className = "section-card";
+
+                    const title = document.createElement("h2");
+                    title.className = "section-title";
+                    title.textContent = section;
+
+                    const list = document.createElement("div");
+                    list.className = "doc-list";
+
+                    sections[section].forEach(doc => {
+                        const item = document.createElement("div");
+                        item.className = "doc-item";
+
+                        const link = document.createElement("a");
+                        link.href = doc.url;
+                        link.target = "_blank";
+                        link.rel = "noopener";
+                        link.textContent = doc.label;
+
+                        item.appendChild(link);
+                        list.appendChild(item);
+                    });
+
+                    card.appendChild(title);
+                    card.appendChild(list);
+                    container.appendChild(card);
+                }
+
+            } catch (err) {
+                container.innerHTML = `<div class="error">⚠️ ${err.message}</div>`;
+            }
+        }
+
+        loadDocuments();
+    </script>
+
+</body>
+</html>

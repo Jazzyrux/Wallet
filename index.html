@@ -1,818 +1,91 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wallet – Codex Documents</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet</title>
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
 
-  <style>
-    :root {
-      --bg: #f5f5f7;
-      --card-bg: #ffffff;
-      --card-alt: #f3f4f6;
-      --accent: #2563eb;
-      --accent-soft: rgba(37, 99, 235, 0.08);
-      --accent-strong: #1d4ed8;
-      --text: #111827;
-      --muted: #6b7280;
-      --danger: #b91c1c;
-      --radius-lg: 16px;
-      --radius-md: 10px;
-      --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.06);
-      --border-subtle: 1px solid rgba(148, 163, 184, 0.35);
-    }
+        h1 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+        }
 
-    * {
-      box-sizing: border-box;
-    }
+        .input-group {
+            margin: 15px 0;
+        }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      min-height: 100%;
-    }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            transition: background 0.3s;
+        }
 
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: stretch;
-    }
+        input:focus {
+            background: rgba(255, 255, 255, 0.7);
+            outline: none;
+        }
 
-    .app-shell {
-      width: 100%;
-      max-width: 980px;
-      min-height: 100vh;
-      padding: 16px 12px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+        button {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
 
-    @media (min-width: 768px) {
-      .app-shell {
-        padding: 32px 24px 40px;
-      }
-    }
+        button:hover {
+            background: #0056b3;
+        }
 
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(209, 213, 219, 0.9);
-      box-shadow: var(--shadow-soft);
-      padding: 18px 16px;
-    }
+        @media (max-width: 600px) {
+            .card {
+                padding: 15px;
+            }
 
-    @media (min-width: 768px) {
-      .card {
-        padding: 22px 22px;
-      }
-    }
+            h1 {
+                font-size: 20px;
+            }
 
-    header {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 6px;
-      border-bottom: 1px solid #e5e7eb;
-      padding-bottom: 10px;
-    }
-
-    .brand-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .brand-main {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo-pill {
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      background: #e5e7eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #1f2933;
-      border: 1px solid #d1d5db;
-    }
-
-    .title-block h1 {
-      margin: 0;
-      font-size: 1.25rem;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-    }
-
-    .title-block p {
-      margin: 3px 0 0;
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    .badge-env {
-      font-size: 0.75rem;
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background: #f9fafb;
-      color: var(--muted);
-    }
-
-    .meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-    }
-
-    .chip {
-      font-size: 0.7rem;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: #f3f4f6;
-      border: 1px solid #e5e7eb;
-      color: var(--muted);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .chip-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: var(--accent);
-    }
-
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 8px;
-    }
-
-    .screen {
-      display: none;
-    }
-    .screen.active {
-      display: block;
-    }
-
-    .section-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .section-card {
-      background: #f9fafb;
-      border-radius: var(--radius-md);
-      padding: 12px 12px 10px;
-      border: 1px solid #e5e7eb;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .section-header {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      z-index: 1;
-    }
-
-    .section-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #374151;
-    }
-
-    .section-count {
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-
-    .doc-list {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .doc-item button {
-      width: 100%;
-      text-align: left;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      padding: 9px 10px;
-      border-radius: 10px;
-      background: #ffffff;
-      color: var(--text);
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      border: 1px solid #e5e7eb;
-      transition: all 0.12s ease-out;
-    }
-
-    .doc-item button:hover {
-      border-color: var(--accent);
-      background: #eff6ff;
-    }
-
-    .doc-main {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .doc-label {
-      font-weight: 500;
-    }
-
-    .doc-meta-line {
-      font-size: 0.72rem;
-      color: var(--muted);
-      opacity: 0.95;
-    }
-
-    .doc-chevron {
-      font-size: 1.1rem;
-      color: var(--accent);
-    }
-
-    .doc-header-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-
-    .btn-ghost {
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background: #f9fafb;
-      color: #374151;
-      padding: 6px 10px;
-      font-size: 0.8rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: all 0.12s ease-out;
-    }
-
-    .btn-ghost:hover {
-      border-color: var(--accent);
-      background: #eff6ff;
-      color: var(--accent-strong);
-    }
-
-    .doc-header-text h2 {
-      margin: 0;
-      font-size: 1.05rem;
-      font-weight: 600;
-    }
-
-    .doc-header-text p {
-      margin: 3px 0 0;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .doc-meta-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin: 8px 0 10px;
-    }
-
-    .doc-meta-primary {
-      background: var(--accent-soft);
-      border: 1px solid rgba(37, 99, 235, 0.4);
-      color: #1d4ed8;
-    }
-
-    .doc-meta-secondary {
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
-      color: #4b5563;
-    }
-
-    .doc-meta-aux {
-      border-radius: 999px;
-      padding: 3px 7px;
-      font-size: 0.7rem;
-      background: #f3f4f6;
-      border: 1px solid #e5e7eb;
-      color: var(--muted);
-    }
-
-    .doc-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .btn-primary {
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-size: 0.8rem;
-      border: none;
-      background: var(--accent);
-      color: #ffffff;
-      font-weight: 500;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: background 0.12s ease-out, box-shadow 0.12s ease-out;
-      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-strong);
-      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.3);
-    }
-
-    .btn-outline {
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 0.8rem;
-      border: 1px solid #d1d5db;
-      background: #ffffff;
-      color: #4b5563;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.12s ease-out;
-    }
-
-    .btn-outline:hover {
-      border-color: var(--accent);
-      color: var(--accent-strong);
-      background: #eff6ff;
-    }
-
-    .viewer-wrapper {
-      background: #ffffff;
-      border-radius: 14px;
-      border: 1px solid #e5e7eb;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      min-height: calc(100vh - 180px);
-      height: calc(100vh - 180px);
-      max-height: none;
-    }
-
-    .viewer-header {
-      padding: 6px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #f9fafb;
-      border-bottom: 1px solid #e5e7eb;
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-
-    .viewer-dots {
-      display: flex;
-      gap: 4px;
-      align-items: center;
-    }
-
-    .viewer-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-    }
-
-    .viewer-dot.red { background: #ef4444; }
-    .viewer-dot.yellow { background: #f59e0b; }
-    .viewer-dot.green { background: #22c55e; }
-
-    .viewer-url {
-      max-width: 70%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-align: right;
-    }
-
-    .viewer-body {
-      flex: 1;
-      position: relative;
-      background: #f3f4f6;
-      height: 100%;
-      max-height: 100%;
-      overflow: hidden;
-    }
-
-    .viewer-iframe {
-      border: none;
-      width: 100%;
-      height: 100%;
-      min-height: 100%;
-      background: #ffffff;
-      display: block;
-    }
-
-    .viewer-fallback {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .error-banner {
-      margin-top: 8px;
-      padding: 8px 10px;
-      border-radius: 8px;
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-      color: #991b1b;
-      font-size: 0.75rem;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-  </style>
+            button {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="app-shell">
     <div class="card">
-      <header>
-        <div class="brand-row">
-          <div class="brand-main">
-            <div class="logo-pill">
-              W
-            </div>
-            <div class="title-block">
-              <h1>Wallet – Codex Documents</h1>
-              <p>Accès rapide et structuré à vos justificatifs.</p>
-            </div>
-          </div>
-          <div class="badge-env">QR • Consultation</div>
+        <h1>My Wallet</h1>
+        <div class="input-group">
+            <input type="text" placeholder="Enter amount" />
         </div>
-
-        <div class="meta-row" id="header-chips"></div>
-      </header>
-
-      <main>
-        <section id="screen-home" class="screen active">
-          <div id="sections" class="section-list"></div>
-          <div id="home-error" class="error-banner hidden">
-            Impossible de charger <code>documents.txt</code>. Vérifiez son emplacement
-            (même dossier que <code>index.html</code>) et la casse du nom.
-          </div>
-        </section>
-
-        <section id="screen-doc" class="screen">
-          <div class="doc-header-bar">
-            <button id="back-btn" class="btn-ghost" type="button">
-              ← Retour à la liste
-            </button>
-            <div class="doc-header-text">
-              <h2 id="doc-label"></h2>
-              <p id="doc-section"></p>
-            </div>
-          </div>
-
-          <div id="doc-meta" class="doc-meta-chips"></div>
-
-          <div class="doc-actions">
-            <button id="open-new-tab" class="btn-primary" type="button">
-              Ouvrir le document
-              <span>↗</span>
-            </button>
-            <button id="copy-link" class="btn-outline" type="button">
-              Copier le lien
-            </button>
-          </div>
-
-          <div id="viewer" class="viewer-wrapper">
-            <div class="viewer-header">
-              <div class="viewer-dots">
-                <span class="viewer-dot red"></span>
-                <span class="viewer-dot yellow"></span>
-                <span class="viewer-dot green"></span>
-              </div>
-              <div id="viewer-url" class="viewer-url"></div>
-            </div>
-            <div class="viewer-body">
-              <iframe
-                id="viewer-iframe"
-                class="viewer-iframe"
-                loading="lazy"
-                referrerpolicy="no-referrer"
-              ></iframe>
-              <div id="viewer-fallback" class="viewer-fallback hidden">
-                Le document ne peut pas être intégré dans la page (restriction
-                d'hébergement). Utilisez le bouton “Ouvrir le document” pour y accéder.
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
+        <button>Submit</button>
     </div>
-  </div>
-
-  <script>
-    const state = {
-      sections: [],
-      docsBySlug: new Map(),
-    };
-
-    function parseDocuments(raw) {
-      const lines = raw
-        .split("\n")
-        .map((l) => l.trim())
-        .filter((l) => l.length > 0);
-
-      let currentSection = null;
-      const sections = [];
-      const docsBySlug = new Map();
-
-      for (const line of lines) {
-        if (line.startsWith("[") && line.endsWith("]")) {
-          currentSection = line.slice(1, -1).trim();
-          if (!currentSection) continue;
-          sections.push({ name: currentSection, docs: [] });
-        } else if (currentSection) {
-          const parts = line.split("|").map((p) => p.trim());
-          if (parts.length < 3) continue;
-
-          const label = parts[0] || "Document";
-          const slug = parts[1] || label.toLowerCase().replace(/\s+/g, "-");
-          const url = parts[2];
-          const metaPrimary = parts[3] || "";
-          const metaSecondary = parts[4] || "";
-          const metaAuxRaw = parts[5] || "";
-          const metaAux = metaAuxRaw
-            .split(",")
-            .map((t) => t.trim())
-            .filter((t) => t.length > 0);
-
-          const doc = {
-            label,
-            slug,
-            url,
-            metaPrimary,
-            metaSecondary,
-            metaAux,
-            section: currentSection,
-          };
-
-          const sectionObj = sections[sections.length - 1];
-          sectionObj.docs.push(doc);
-          docsBySlug.set(slug, doc);
-        }
-      }
-
-      return { sections, docsBySlug };
-    }
-
-    function renderHeaderChips() {
-      const container = document.getElementById("header-chips");
-      if (!container) return;
-      container.innerHTML = "";
-
-      state.sections.forEach((section) => {
-        const chip = document.createElement("span");
-        chip.className = "chip";
-
-        const dot = document.createElement("span");
-        dot.className = "chip-dot";
-
-        chip.appendChild(dot);
-        chip.appendChild(document.createTextNode(" " + section.name));
-        container.appendChild(chip);
-      });
-    }
-
-    function renderHome() {
-      document.getElementById("screen-home").classList.add("active");
-      document.getElementById("screen-doc").classList.remove("active");
-
-      const container = document.getElementById("sections");
-      container.innerHTML = "";
-
-      for (const section of state.sections) {
-        const card = document.createElement("div");
-        card.className = "section-card";
-
-        const header = document.createElement("div");
-        header.className = "section-header";
-
-        const title = document.createElement("div");
-        title.className = "section-title";
-        title.textContent = section.name;
-
-        const count = document.createElement("div");
-        count.className = "section-count";
-        count.textContent =
-          section.docs.length > 1
-            ? section.docs.length + " documents"
-            : section.docs.length + " document";
-
-        header.appendChild(title);
-        header.appendChild(count);
-
-        const list = document.createElement("div");
-        list.className = "doc-list";
-
-        for (const doc of section.docs) {
-          const item = document.createElement("div");
-          item.className = "doc-item";
-
-          const btn = document.createElement("button");
-          btn.type = "button";
-
-          const main = document.createElement("div");
-          main.className = "doc-main";
-
-          const label = document.createElement("div");
-          label.className = "doc-label";
-          label.textContent = doc.label;
-
-          const metaLine = document.createElement("div");
-          metaLine.className = "doc-meta-line";
-          const mp = doc.metaPrimary || "Document";
-          const ms = doc.metaSecondary || doc.section;
-          metaLine.textContent = mp + " • " + ms;
-
-          main.appendChild(label);
-          main.appendChild(metaLine);
-
-          const chevron = document.createElement("div");
-          chevron.className = "doc-chevron";
-          chevron.textContent = "›";
-
-          btn.appendChild(main);
-          btn.appendChild(chevron);
-
-          btn.addEventListener("click", () => {
-            window.location.hash = "#doc=" + encodeURIComponent(doc.slug);
-          });
-
-          item.appendChild(btn);
-          list.appendChild(item);
-        }
-
-        card.appendChild(header);
-        card.appendChild(list);
-        container.appendChild(card);
-      }
-    }
-
-    function renderDocument(slug) {
-      const doc = state.docsBySlug.get(slug);
-      if (!doc) {
-        window.location.hash = "";
-        return;
-      }
-
-      document.getElementById("screen-home").classList.remove("active");
-      document.getElementById("screen-doc").classList.add("active");
-
-      const labelEl = document.getElementById("doc-label");
-      const sectionEl = document.getElementById("doc-section");
-      const metaContainer = document.getElementById("doc-meta");
-      const viewerUrl = document.getElementById("viewer-url");
-      const iframe = document.getElementById("viewer-iframe");
-      const fallback = document.getElementById("viewer-fallback");
-
-      labelEl.textContent = doc.label;
-      sectionEl.textContent = doc.section;
-
-      metaContainer.innerHTML = "";
-
-      if (doc.metaPrimary) {
-        const primaryChip = document.createElement("div");
-        primaryChip.className = "chip doc-meta-primary";
-        primaryChip.textContent = doc.metaPrimary;
-        metaContainer.appendChild(primaryChip);
-      }
-
-      if (doc.metaSecondary) {
-        const secondaryChip = document.createElement("div");
-        secondaryChip.className = "chip doc-meta-secondary";
-        secondaryChip.textContent = doc.metaSecondary;
-        metaContainer.appendChild(secondaryChip);
-      }
-
-      if (doc.metaAux && doc.metaAux.length) {
-        for (const tag of doc.metaAux) {
-          const auxChip = document.createElement("div");
-          auxChip.className = "doc-meta-aux";
-          auxChip.textContent = tag;
-          metaContainer.appendChild(auxChip);
-        }
-      }
-
-      viewerUrl.textContent = doc.url;
-      fallback.classList.add("hidden");
-
-      iframe.src = doc.url;
-      iframe.onload = () => {
-        fallback.classList.add("hidden");
-      };
-      iframe.onerror = () => {
-        fallback.classList.remove("hidden");
-      };
-
-      const openBtn = document.getElementById("open-new-tab");
-      openBtn.onclick = () => {
-        window.open(doc.url, "_blank", "noopener");
-      };
-
-      const copyBtn = document.getElementById("copy-link");
-      copyBtn.onclick = async () => {
-        try {
-          await navigator.clipboard.writeText(doc.url);
-          copyBtn.textContent = "Lien copié ✔";
-          setTimeout(() => {
-            copyBtn.textContent = "Copier le lien";
-          }, 1200);
-        } catch (e) {
-          copyBtn.textContent = "Impossible de copier";
-          setTimeout(() => {
-            copyBtn.textContent = "Copier le lien";
-          }, 1200);
-        }
-      };
-    }
-
-    function handleRouteChange() {
-      const hash = window.location.hash || "";
-      const match = hash.match(/^#doc=(.+)$/);
-      if (match) {
-        const slug = decodeURIComponent(match[1]);
-        renderDocument(slug);
-      } else {
-        renderHome();
-      }
-    }
-
-    async function bootstrap() {
-      const homeError = document.getElementById("home-error");
-      homeError.classList.add("hidden");
-
-      try {
-        const res = await fetch("documents.txt");
-        if (!res.ok) throw new Error();
-        const text = await res.text();
-        const { sections, docsBySlug } = parseDocuments(text);
-        state.sections = sections;
-        state.docsBySlug = docsBySlug;
-
-        renderHeaderChips();
-        handleRouteChange();
-      } catch (err) {
-        homeError.classList.remove("hidden");
-      }
-    }
-
-    document.getElementById("back-btn").addEventListener("click", () => {
-      window.location.hash = "";
-    });
-
-    window.addEventListener("hashchange", handleRouteChange);
-
-    bootstrap();
-  </script>
 </body>
 </html>
